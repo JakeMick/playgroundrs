@@ -2,13 +2,13 @@ use std::fmt::{Show};
 use std::ptr::{swap};
 use std::vec::{Vec};
 
-// If I was only interested in heap_sort, I'd 
-// write something like
-// fn heap_sort<T: Ord>(&mut Vec<T>) {
-//      fn min_heapify<T: Ord>(&mut Vec<T>) { ...
-//      }
-//      ...
-// }
+//! If I was only interested in heap_sort, I'd 
+//! write something like
+//! fn heap_sort<T: Ord>(&mut Vec<T>) {
+//!      fn min_heapify<T: Ord>(&mut Vec<T>) { ...
+//!      }
+//!      ...
+//! }
 pub trait Heap {
     fn heap_sort(&mut self);
     fn min_heapify(&mut self, uint, uint);
