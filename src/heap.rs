@@ -28,7 +28,7 @@ pub trait Heap {
     fn swap(&mut self, uint, uint);
 }
 
-impl <T: Ord + Clone + Show> Heap for Vec<T> {
+impl <T: Ord> Heap for Vec<T> {
 
     fn heap_sort(&mut self) {
         self.build_min_heap();
