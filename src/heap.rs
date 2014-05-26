@@ -17,8 +17,9 @@ use std::ptr::{swap};
 use std::vec::{Vec};
 
 
-pub trait Heap {
+pub trait Heap<T> {
     fn heap_sort(&mut self);
+    fn heap_min<'a>(&'a self) -> &'a T;
     fn min_heapify(&mut self, uint, uint);
     fn build_min_heap(&mut self);
     fn left(&self, uint) -> uint;
@@ -27,14 +28,17 @@ pub trait Heap {
     fn swap(&mut self, uint, uint);
 }
 
-impl <T: Ord> Heap for Vec<T> {
-
+impl <T: Ord> Heap<T> for Vec<T> {
     fn heap_sort(&mut self) {
         self.build_min_heap();
         for i in range(1, self.len()).rev()  {
             self.swap(0, i);
             self.min_heapify(0, i);
         }
+    }
+
+    fn heap_min<'a>(&'a self) -> &'a T {
+        self.get(0)
     }
 
     fn min_heapify(&mut self, i: uint, j: uint) {

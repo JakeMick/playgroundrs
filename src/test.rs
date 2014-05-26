@@ -3,6 +3,13 @@ use sort::{insertion_sort, merge_sort};
 use util::{assert_sorted, rand};
 
 #[test]
+fn test_heap_min() {
+    let a = vec!(0,1);
+    let b = a.heap_min();
+    assert!(b == &0);
+}
+
+#[test]
 fn test_heap_sort() {
     let mut a = rand(10000);
     a.heap_sort();
