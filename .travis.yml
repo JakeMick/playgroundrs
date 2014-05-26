@@ -4,5 +4,5 @@ before_install:
 install:
 	- sudo apt-get install rust-nightly
 script:
-    - make test-internal
+	- make test-internal
 
