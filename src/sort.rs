@@ -1,4 +1,3 @@
-extern crate std;
 use std::vec::{Vec};
 
 pub fn merge_sort<T: Ord + Clone>(q: &Vec<T>) -> Vec<T> {
