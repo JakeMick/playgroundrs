@@ -20,6 +20,7 @@ use std::vec::{Vec};
 pub trait Heap<T> {
     fn heap_sort(&mut self);
     fn heap_min<'a>(&'a self) -> &'a T;
+    fn heap_extract_min(&mut self) -> T;
     fn min_heapify(&mut self, uint, uint);
     fn build_min_heap(&mut self);
     fn left(&self, uint) -> uint;
@@ -39,6 +40,13 @@ impl <T: Ord> Heap<T> for Vec<T> {
 
     fn heap_min<'a>(&'a self) -> &'a T {
         self.get(0)
+    }
+
+    fn heap_extract_min(&mut self) -> T {
+        let o = self.swap_remove(0);
+        let self_len = self.len();
+        self.min_heapify(0, self_len);
+        return o.unwrap()
     }
 
     fn min_heapify(&mut self, i: uint, j: uint) {

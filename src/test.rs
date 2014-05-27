@@ -25,6 +25,18 @@ fn test_heap_swap() {
     assert!(h == g);
 }
 
+#[test]
+fn test_heap_extract_min() {
+    let mut a = rand(10000);
+    a.build_min_heap();
+    let mut b = a.heap_extract_min();
+    for i in range(0, a.len() / 2 - 1) {
+        let c = a.heap_extract_min();
+        if c > b {
+            assert!(false);
+        }
+    }
+}
 
 #[test]
 fn test_build_min_heap() {
