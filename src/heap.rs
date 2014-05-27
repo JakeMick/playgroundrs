@@ -12,7 +12,6 @@
 ///      ...
 /// }
 
-use std::fmt::{Show};
 use std::ptr::{swap};
 use std::vec::{Vec};
 
