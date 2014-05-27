@@ -3,6 +3,15 @@ use sort::{insertion_sort, merge_sort};
 use util::{assert_sorted, rand};
 
 #[test]
+fn test_min_heap_insert() {
+    let mut a = rand(100);
+    a.build_min_heap();
+    a.min_heap_insert(10);
+    assert_min_heap(a);
+
+}
+
+#[test]
 fn test_heap_min() {
     let a = vec!(0,1);
     let b = a.heap_min();
@@ -40,16 +49,21 @@ fn test_heap_extract_min() {
     }
 }
 
-#[test]
-fn test_build_min_heap() {
-    let mut a = rand(100);
-    a.build_min_heap();
+fn assert_min_heap(a: Vec<int>) {
     for i in range(0, a.len() / 2 - 1) {
         let c = a.get(i);
         if a.get(a.left(i)) > c || a.get(a.right(i)) > c {
             assert!(false);
         }
     }
+
+}
+
+#[test]
+fn test_build_min_heap() {
+    let mut a = rand(100);
+    a.build_min_heap();
+    assert_min_heap(a);
 }
 
 #[test]

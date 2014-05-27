@@ -20,6 +20,7 @@ pub trait Heap<T> {
     fn heap_sort(&mut self);
     fn heap_min<'a>(&'a self) -> &'a T;
     fn heap_extract_min(&mut self) -> T;
+    fn min_heap_insert(&mut self, T);
     fn min_heapify(&mut self, uint, uint);
     fn build_min_heap(&mut self);
     fn left(&self, uint) -> uint;
@@ -50,6 +51,14 @@ impl <T: Ord> Heap<T> for Vec<T> {
         let self_len = self.len();
         self.min_heapify(0, self_len);
         return o.unwrap()
+    }
+
+    fn min_heap_insert(&mut self, i: T) {
+        // O(n) insert
+        // TODO: is there a better way?
+        self.unshift(i);
+        let self_len = self.len();
+        self.min_heapify(0, self_len);
     }
 
     /// Min heapify function, takes the indices of a target and the bottom.
@@ -92,8 +101,7 @@ impl <T: Ord> Heap<T> for Vec<T> {
         i / 2
     }
 
-    /// Beware dragons lurk here.
-    /// ??? Someone should audit this.
+    /// TODO: Verify the correctness of this pointer cast.
     fn swap(&mut self, i: uint, j: uint) {
         unsafe{
             let ptr_to_i: *mut T = self.get_mut(i);
