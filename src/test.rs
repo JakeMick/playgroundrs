@@ -11,7 +11,7 @@ fn test_heap_min() {
 
 #[test]
 fn test_heap_sort() {
-    let mut a = rand(10000);
+    let mut a = rand(100);
     a.heap_sort();
     let c = assert_sorted(a);
     assert!(c);
@@ -27,20 +27,22 @@ fn test_heap_swap() {
 
 #[test]
 fn test_heap_extract_min() {
-    let mut a = rand(10000);
+    let mut a = rand(100);
     a.build_min_heap();
     let mut b = a.heap_extract_min();
+    let mut c = a.heap_extract_min();
     for i in range(0, a.len() / 2 - 1) {
-        let c = a.heap_extract_min();
         if c > b {
             assert!(false);
         }
+        b = c;
+        c = a.heap_extract_min();
     }
 }
 
 #[test]
 fn test_build_min_heap() {
-    let mut a = rand(10000);
+    let mut a = rand(100);
     a.build_min_heap();
     for i in range(0, a.len() / 2 - 1) {
         let c = a.get(i);
@@ -52,7 +54,7 @@ fn test_build_min_heap() {
 
 #[test]
 fn test_merge(){
-    let a = rand(10000);
+    let a = rand(100);
     let b = merge_sort(&a);
     let c = assert_sorted(b);
     assert!(c);
@@ -60,7 +62,7 @@ fn test_merge(){
 
 #[test]
 fn test_insertion(){
-    let a = rand(1000);
+    let a = rand(100);
     let b = insertion_sort(&a);
     let c = assert_sorted(b);
     assert!(c);

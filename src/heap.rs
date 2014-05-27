@@ -29,6 +29,7 @@ pub trait Heap<T> {
 }
 
 impl <T: Ord> Heap<T> for Vec<T> {
+    /// In-place sorting in O(n ln n).
     fn heap_sort(&mut self) {
         self.build_min_heap();
         for i in range(1, self.len()).rev()  {
@@ -37,10 +38,13 @@ impl <T: Ord> Heap<T> for Vec<T> {
         }
     }
 
+    /// Obtain the minimum value of the heap.
     fn heap_min<'a>(&'a self) -> &'a T {
         self.get(0)
     }
-
+    
+    /// Obtain the minimum value of the heap and remove it, while maintaining
+    /// the max heap property.
     fn heap_extract_min(&mut self) -> T {
         let o = self.swap_remove(0);
         let self_len = self.len();
@@ -48,6 +52,9 @@ impl <T: Ord> Heap<T> for Vec<T> {
         return o.unwrap()
     }
 
+    /// Min heapify function, takes the indices of a target and the bottom.
+    /// it will swap the target to the bottom while maintaining the min heap
+    /// property.
     fn min_heapify(&mut self, i: uint, j: uint) {
         let l = self.left(i);
         let r = self.right(i);
@@ -63,7 +70,9 @@ impl <T: Ord> Heap<T> for Vec<T> {
             self.min_heapify(smallest, j);
         }
     }
-
+    
+    /// Make Vec<T> observes the min heap property.
+    /// A better API would be Heap::from_vec
     fn build_min_heap(&mut self) {
         let self_len = self.len();
         for i in range(0, self_len / 2 + 1).rev() {
@@ -83,6 +92,8 @@ impl <T: Ord> Heap<T> for Vec<T> {
         i / 2
     }
 
+    /// Beware dragons lurk here.
+    /// ??? Someone should audit this.
     fn swap(&mut self, i: uint, j: uint) {
         unsafe{
             let ptr_to_i: *mut T = self.get_mut(i);
