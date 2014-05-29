@@ -1,6 +1,5 @@
 #![crate_id   = "playgroundrs"]
 #![crate_type = "lib"]
-#![feature(phase)]
 
 extern crate std;
 extern crate core;

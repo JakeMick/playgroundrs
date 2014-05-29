@@ -15,7 +15,6 @@
 use std::ptr::{swap};
 use std::vec::{Vec};
 
-
 pub trait Heap<T> {
     fn heap_sort(&mut self);
     fn heap_min<'a>(&'a self) -> &'a T;
@@ -30,9 +29,10 @@ pub trait Heap<T> {
 }
 
 impl <T: Ord> Heap<T> for Vec<T> {
-    /// In-place sorting in O(n ln n).
+    /// In-place sorting in O(n lg n).
     fn heap_sort(&mut self) {
         self.build_min_heap();
+        let self_len = self.len();
         for i in range(1, self.len()).rev()  {
             self.swap(0, i);
             self.min_heapify(0, i);
@@ -43,7 +43,7 @@ impl <T: Ord> Heap<T> for Vec<T> {
     fn heap_min<'a>(&'a self) -> &'a T {
         self.get(0)
     }
-    
+
     /// Obtain the minimum value of the heap and remove it, while maintaining
     /// the max heap property.
     fn heap_extract_min(&mut self) -> T {
@@ -54,24 +54,36 @@ impl <T: Ord> Heap<T> for Vec<T> {
     }
 
     fn min_heap_insert(&mut self, i: T) {
-        // O(n) insert
-        // TODO: is there a better way?
-        self.unshift(i);
+        self.push(i);
         let self_len = self.len();
-        self.min_heapify(0, self_len);
+        let mut cur = self_len - 1;
+        loop {
+            if cur == 0 {
+                break;
+            } else {
+                let up = self.parent(cur);
+                if self.get(cur) >= self.get(up) {
+                    break;
+                } else {
+                    self.swap(up, cur);
+                    cur = up;
+                }
+            }
+        }
     }
 
+
     /// Min heapify function, takes the indices of a target and the bottom.
-    /// it will swap the target to the bottom while maintaining the min heap
+    /// it will swap the target downward while maintaining the min heap
     /// property.
     fn min_heapify(&mut self, i: uint, j: uint) {
         let l = self.left(i);
         let r = self.right(i);
         let mut smallest = i;
-        if l < j && self.get(l) > self.get(smallest) {
+        if l < j && self.get(l) < self.get(smallest) {
             smallest = l;
         } 
-        if r < j && self.get(r) > self.get(smallest) {
+        if r < j && self.get(r) < self.get(smallest) {
             smallest = r;
         }
         if smallest != i {
@@ -79,7 +91,6 @@ impl <T: Ord> Heap<T> for Vec<T> {
             self.min_heapify(smallest, j);
         }
     }
-    
     /// Make Vec<T> observes the min heap property.
     /// A better API would be Heap::from_vec
     fn build_min_heap(&mut self) {
@@ -98,7 +109,7 @@ impl <T: Ord> Heap<T> for Vec<T> {
     }
 
     fn parent(&self, i: uint) -> uint {
-        i / 2
+        (i - 1) / 2
     }
 
     /// TODO: Verify the correctness of this pointer cast.
