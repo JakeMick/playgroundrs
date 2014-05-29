@@ -32,7 +32,6 @@ impl <T: Ord> Heap<T> for Vec<T> {
     /// In-place sorting in O(n lg n).
     fn heap_sort(&mut self) {
         self.build_min_heap();
-        let self_len = self.len();
         for i in range(1, self.len()).rev()  {
             self.swap(0, i);
             self.min_heapify(0, i);
