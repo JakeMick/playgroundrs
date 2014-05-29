@@ -45,9 +45,25 @@ fn test_heap_extract_min() {
 
 #[test]
 fn test_oppo_heap_sort() {
-    let mut a = rand(100000);
+    let mut a = rand(1000);
     a.heap_sort();
-    assert!(a.as_slice().windows(2).all(|pair| pair[1] <= pair[0]));
+    let c = assert_sorted(&a);
+    assert!(c);
+}
+
+
+#[test] 
+fn test_reverse() {
+    let a = rand(1000);
+    let mut b = a.clone();
+    b.reverse();
+    b.reverse();
+    assert!(a.len() == b.len())
+    for i in range(0, a.len()) {
+        if a.get(i) != b.get(i) {
+            assert!(false);
+        }
+    }
 }
 
 fn assert_min_heap(xs: &Vec<int>) {

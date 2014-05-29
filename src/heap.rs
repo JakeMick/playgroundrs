@@ -26,6 +26,7 @@ pub trait Heap<T> {
     fn right(&self, uint) -> uint;
     fn parent(&self, uint) -> uint;
     fn swap(&mut self, uint, uint);
+    fn reverse(&mut self);
 }
 
 impl <T: Ord> Heap<T> for Vec<T> {
@@ -36,6 +37,7 @@ impl <T: Ord> Heap<T> for Vec<T> {
             self.swap(0, i);
             self.min_heapify(0, i);
         }
+        self.reverse();
     }
 
     /// Obtain the minimum value of the heap.
@@ -117,6 +119,16 @@ impl <T: Ord> Heap<T> for Vec<T> {
             let ptr_to_i: *mut T = self.get_mut(i);
             let ptr_to_j: *mut T = self.get_mut(j);
             swap(ptr_to_i, ptr_to_j);
+        }
+    }
+
+    fn reverse(&mut self) {
+        let mut start = 0;
+        let mut end = self.len();
+        while end > start {
+            self.swap(start, end);
+            start += 1;
+            end -= 1;
         }
     }
 
